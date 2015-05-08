@@ -4,7 +4,6 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.6"]
                  [ring/ring-json "0.3.1"]
-                 [ring-cors "0.1.7"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]]
   :plugins [[lein-ring "0.8.12"]]
