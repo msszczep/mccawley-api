@@ -1,5 +1,5 @@
-(ns mccawley_back.repl
-  (:use mccawley_back.handler
+(ns mccawley-api.repl
+  (:use mccawley-api.handler
         ring.server.standalone
         [ring.middleware file-info file]))
 

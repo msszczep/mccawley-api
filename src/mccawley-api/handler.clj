@@ -1,15 +1,15 @@
-(ns mccawley_back.handler
+(ns mccawley-api.handler
   (:require [compojure.core :refer [defroutes routes]]
             [compojure.handler :as handler]
             [compojure.route :as route]
-            [mccawley_back.routes.home :refer [home-routes]]
+            [mccawley-api.routes.home :refer [home-routes]]
             [ring.middleware.json :as middleware]))
 
 (defn init []
-  (println "mccawley_back is starting"))
+  (println "mccawley-api is starting"))
 
 (defn destroy []
-  (println "mccawley_back is shutting down"))
+  (println "mccawley-api is shutting down"))
 
 (defroutes app-routes
   (route/resources "/")

@@ -1,4 +1,4 @@
-(defproject mccawley_back "0.1.0-SNAPSHOT"
+(defproject mccawley-api "0.1.0-SNAPSHOT"
   :description "Backend for McCawley"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.6.0"]
@@ -7,9 +7,9 @@
                  [edu.stanford.nlp/stanford-corenlp "3.5.1"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]]
   :plugins [[lein-ring "0.8.12"]]
-  :ring {:handler mccawley_back.handler/app
-         :init mccawley_back.handler/init
-         :destroy mccawley_back.handler/destroy}
+  :ring {:handler mccawley-api.handler/app
+         :init mccawley-api.handler/init
+         :destroy mccawley-api.handler/destroy}
   :profiles
   {:uberjar {:aot :all}
    :production
