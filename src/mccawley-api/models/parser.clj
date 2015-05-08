@@ -1,4 +1,4 @@
-(ns mccawley_back.models.parser
+(ns mccawley-api.models.parser
   (:use (edu.stanford.nlp.parser.lexparser)
         (edu.stanford.nlp.ling.Word)
         (edu.stanford.nlp.process)
