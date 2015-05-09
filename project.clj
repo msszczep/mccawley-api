@@ -5,7 +5,8 @@
                  [compojure "1.3.4"]
                  [ring/ring-json "0.3.1"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1"]
-                 [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]]
+                 [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]
+                 [clj-time "0.9.0"]]
   :plugins [[lein-ring "0.9.3"]]
   :ring {:handler mccawley-api.handler/app
          :init mccawley-api.handler/init
