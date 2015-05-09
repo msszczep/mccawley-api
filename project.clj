@@ -10,7 +10,7 @@
   :ring {:handler mccawley-api.handler/app
          :init mccawley-api.handler/init
          :destroy mccawley-api.handler/destroy}
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.5.1"
   :profiles
   {:uberjar {:aot :all}
    :production
