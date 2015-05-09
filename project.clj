@@ -2,12 +2,11 @@
   :description "Backend for McCawley"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [compojure "1.3.4"]
+                 [compojure "1.1.6"]
                  [ring/ring-json "0.3.1"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1"]
-                 [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]
-                 [clj-time "0.9.0"]]
-  :plugins [[lein-ring "0.9.3"]]
+                 [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]]
+  :plugins [[lein-ring "0.8.12"]]
   :ring {:handler mccawley-api.handler/app
          :init mccawley-api.handler/init
          :destroy mccawley-api.handler/destroy}
