@@ -1,6 +1,10 @@
-# mccawley_back
+# mccawley-api_
 
-FIXME
+This is a backend for the McCawley app, which delivers
+back a string of a syntactic tree of an English
+language sentence.  Usage:
+
+http://mccawley-api.com/parse/Hello%20world!
 
 ## Prerequisites
 

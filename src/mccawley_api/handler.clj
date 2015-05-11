@@ -3,7 +3,8 @@
             [compojure.handler :as handler]
             [compojure.route :as route]
             [mccawley-api.routes.home :refer [home-routes]]
-            [ring.middleware.json :as middleware]))
+            [ring.middleware.json :as middleware]
+            [ring.middleware.cors :refer [wrap-cors]]))
 
 (defn init []
   (println "mccawley-api is starting"))
@@ -18,5 +19,7 @@
 (def app
   (-> (routes home-routes app-routes)
       (handler/site)
+      (wrap-cors :access-control-allow-origin #".+"
+                 :access-control-allow-methods [:get])
       (middleware/wrap-json-body)
       middleware/wrap-json-response))

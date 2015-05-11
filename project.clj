@@ -5,6 +5,7 @@
                  [compojure "1.1.6"]
                  [ring/ring-json "0.3.1"]
                  [ring-server "0.4.0"]
+                 [ring-cors "0.1.7"]
                  [javax.servlet/servlet-api "2.5"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1"]
                  [edu.stanford.nlp/stanford-corenlp "3.5.1" :classifier "models"]]

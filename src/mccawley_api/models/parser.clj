@@ -36,5 +36,21 @@
   (.apply (load-parser) (java.util.ArrayList. (map word coll))))
 
 
+(defn transform-clj-to-jsobj [s]
+  (clojure.string/replace
+    (apply str
+      (for [item (-> s (clojure.string/split #"\(") rest)]
+        (let [num-right-parens (count (re-seq #"\)" item))]
+          (if (zero? num-right-parens)
+            (str "{pos: '" (clojure.string/trim item)
+                 "', word: '', children: [")
+            (let [w (clojure.string/split item #" ")]
+              (str "{pos: '" (first w) "', word: '"
+                   (clojure.string/replace (last w) #"\)" "")
+                   "', children: ["
+                   (apply str (repeat num-right-parens "]},"))))))))
+    #",$" ""))
+
+
 (defn parse-text [txt]
-  (str (parse (tokenize txt))))
+  (transform-clj-to-jsobj (str (parse (tokenize txt)))))
