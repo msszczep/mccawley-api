@@ -42,12 +42,12 @@
       (for [item (-> s (clojure.string/split #"\(") rest)]
         (let [num-right-parens (count (re-seq #"\)" item))]
           (if (zero? num-right-parens)
-            (str "{pos: '" (clojure.string/trim item)
-                 "', word: '', children: [")
+            (str "{:pos \"" (clojure.string/trim item)
+                 "\", :word \"\", :children [")
             (let [w (clojure.string/split item #" ")]
-              (str "{pos: '" (first w) "', word: '"
+              (str "{:pos \"" (first w) "\", :word \""
                    (clojure.string/replace (last w) #"\)" "")
-                   "', children: ["
+                   "\", :children ["
                    (apply str (repeat num-right-parens "]},"))))))))
     #",$" ""))
 
