@@ -36,7 +36,7 @@
   (.apply (load-parser) (java.util.ArrayList. (map word coll))))
 
 
-(defn transform-clj-to-jsobj [s]
+(defn transform-clj-obj [s]
   (clojure.string/replace
     (apply str
       (for [item (-> s (clojure.string/split #"\(") rest)]
@@ -53,4 +53,4 @@
 
 
 (defn parse-text [txt]
-  (transform-clj-to-jsobj (str (parse (tokenize txt)))))
+  (transform-clj-obj (str (parse (tokenize txt)))))
