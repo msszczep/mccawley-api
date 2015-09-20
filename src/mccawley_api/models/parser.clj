@@ -24,11 +24,19 @@
               (java.io.StringReader. t))))
 
 
+(defn split-sentences [text]
+  (let [rdr (java.io.StringReader. text)]
+    (map #(vec (map (comp word str) %))
+      (iterator-seq
+        (.iterator
+          (edu.stanford.nlp.process.DocumentPreprocessor. rdr))))))
+
+
 (defmulti parse class)
 
 
 (defmethod parse java.lang.String [s]
-  (parse (tokenize s)))
+  (parse s))
 
 
 (defmethod parse :default [coll]
@@ -52,5 +60,9 @@
     #",$" ""))
 
 
-(defn parse-text [txt]
-  (transform-clj-obj (str (parse (tokenize txt)))))
+(defn parse-one-sentence [txt]
+  ((comp transform-clj-obj str parse tokenize) txt))
+
+
+(defn parse-multiple-sentences [t]
+  (map (comp transform-clj-obj str parse) (split-sentences t)))
