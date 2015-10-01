@@ -1,15 +1,21 @@
 (ns mccawley-api.models.parser
+  "
+  Adapted from
+  https://github.com/gilesc/stanford-corenlp/blob/master/src/corenlp.clj
+  "
   (:use (edu.stanford.nlp.parser.lexparser)
         (edu.stanford.nlp.ling.Word)
         (edu.stanford.nlp.process)
         (java.io.StringReader)
         (java.util.ArrayList)))
-; Adapted from https://github.com/gilesc/stanford-corenlp/blob/master/src/corenlp.clj
+
 
 (defmulti word type)
 
+
 (defmethod word String [s]
   (edu.stanford.nlp.ling.Word. s))
+
 
 (defmethod word edu.stanford.nlp.ling.Word [w] w)
 
@@ -25,11 +31,12 @@
 
 
 (defn split-sentences [text]
-  (let [rdr (java.io.StringReader. text)]
-    (map #(vec (map (comp word str) %))
-      (iterator-seq
-        (.iterator
-          (edu.stanford.nlp.process.DocumentPreprocessor. rdr))))))
+  (->> text
+       java.io.StringReader.
+       edu.stanford.nlp.process.DocumentPreprocessor.
+       .iterator
+       iterator-seq
+       (map #(vec (map (comp word str) %)))))
 
 
 (defmulti parse class)
@@ -41,7 +48,10 @@
 
 (defmethod parse :default [coll]
   [coll]
-  (.apply (load-parser) (java.util.ArrayList. (map word coll))))
+  (->> coll
+       (map word)
+       java.util.ArrayList.
+       (.apply (load-parser))))
 
 
 (defn transform-clj-obj [s]
@@ -61,7 +71,11 @@
 
 
 (defn parse-one-sentence [txt]
-  ((comp transform-clj-obj str parse tokenize) txt))
+  (-> txt
+      tokenize
+      parse
+      str
+      transform-clj-obj))
 
 
 (defn parse-multiple-sentences [t]
