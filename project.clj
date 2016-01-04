@@ -7,9 +7,7 @@
                  [ring-server "0.4.0"]
                  [ring-cors "0.1.7"]
                  [javax.servlet/servlet-api "2.5"]
-                 [edu.stanford.nlp/stanford-corenlp "3.5.1"]
-                 [edu.stanford.nlp/stanford-corenlp "3.5.1"
-                  :classifier "models"]]
+                 [me.arnaudsj/corenlp "3.5.2" :exclusions [org.clojure/clojure]]]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler mccawley-api.handler/app
          :init mccawley-api.handler/init

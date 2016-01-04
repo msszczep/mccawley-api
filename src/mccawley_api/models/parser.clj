@@ -1,57 +1,15 @@
 (ns mccawley-api.models.parser
-  "
-  Adapted from
-  https://github.com/gilesc/stanford-corenlp/blob/master/src/corenlp.clj
-  "
-  (:use (edu.stanford.nlp.parser.lexparser)
-        (edu.stanford.nlp.ling.Word)
-        (edu.stanford.nlp.process)
-        (java.io.StringReader)
-        (java.util.ArrayList)))
+  (:require [corenlp :as stanford-corenlp]))
 
 
-(defmulti word type)
+(def negative-set #{"no" "not" "never" "n't" "nor"})
 
 
-(defmethod word String [s]
-  (edu.stanford.nlp.ling.Word. s))
-
-
-(defmethod word edu.stanford.nlp.ling.Word [w] w)
-
-
-(def ^{:private true} load-parser
-  (memoize
-    (fn [] (edu.stanford.nlp.parser.lexparser.LexicalizedParser/loadModel))))
-
-
-(defn tokenize [t]
-  (.tokenize (edu.stanford.nlp.process.PTBTokenizer/newPTBTokenizer
-              (java.io.StringReader. t))))
-
-
-(defn split-sentences [text]
-  (->> text
-       java.io.StringReader.
-       edu.stanford.nlp.process.DocumentPreprocessor.
-       .iterator
-       iterator-seq
-       (map #(vec (map (comp word str) %)))))
-
-
-(defmulti parse class)
-
-
-(defmethod parse java.lang.String [s]
-  (parse s))
-
-
-(defmethod parse :default [coll]
-  [coll]
-  (->> coll
-       (map word)
-       java.util.ArrayList.
-       (.apply (load-parser))))
+(def sentiment-map
+  (->> (slurp "/Users/msszczep1/Desktop/mitchells/workspace/mccawley-api/src/mccawley_api/models/AFINN-en-165.txt")
+       clojure.string/split-lines
+       (map #(clojure.string/split % #"\t"))
+       (into {})))
 
 
 (defn transform-clj-obj [s]
@@ -62,9 +20,16 @@
           (if (zero? num-right-parens)
             (str "{:pos \"" (clojure.string/trim item)
                  "\", :word \"\", :children [")
-            (let [w (clojure.string/split item #" ")]
-              (str "{:pos \"" (first w) "\", :word \""
-                   (clojure.string/replace (last w) #"\)" "")
+            (let [word-pair (clojure.string/split item #" ")
+                  word (clojure.string/replace (last word-pair) #"\)" "")]
+              (str "{:pos \"" (first word-pair) "\", :word \"" word
+                   "\", :sentiment \""
+                   (get sentiment-map (clojure.string/lower-case word) 0)
+                   "\", :entity \""
+                   (first (stanford-corenlp/named-entities word))
+                   "\", :semneg \""
+                   (if (contains? negative-set
+                                  (clojure.string/lower-case word)) 1 0)
                    "\", :children ["
                    (apply str (repeat num-right-parens "]},"))))))))
     #",$" ""))
@@ -72,11 +37,12 @@
 
 (defn parse-one-sentence [txt]
   (-> txt
-      tokenize
-      parse
+      stanford-corenlp/tokenize
+      stanford-corenlp/parse
       str
       transform-clj-obj))
 
 
 (defn parse-multiple-sentences [t]
-  (map (comp transform-clj-obj str parse) (split-sentences t)))
+  (map (comp transform-clj-obj str stanford-corenlp/parse)
+       (stanford-corenlp/split-sentences t)))
