@@ -6,6 +6,8 @@ language sentence.  Usage:
 
 http://mccawley-api.com/parse/Hello%20world!
 
+http://mccawley-api.com/parse-multi/Hello%20world!%20We%20are%20ready.
+
 ## Prerequisites
 
 You will need [Leiningen][1] 1.7.0 or above installed.

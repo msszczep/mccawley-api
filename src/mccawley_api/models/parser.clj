@@ -1,12 +1,13 @@
 (ns mccawley-api.models.parser
-  (:require [corenlp :as stanford-corenlp]))
+  (:require [corenlp :as stanford-corenlp]
+            [clojure.java.io :as io]))
 
 
 (def negative-set #{"no" "not" "never" "n't" "nor"})
 
 
 (def sentiment-map
-  (->> (slurp "/Users/msszczep1/Desktop/mitchells/workspace/mccawley-api/src/mccawley_api/models/AFINN-en-165.txt")
+  (->> (slurp (io/resource "AFINN-en-165.txt"))
        clojure.string/split-lines
        (map #(clojure.string/split % #"\t"))
        (into {})))

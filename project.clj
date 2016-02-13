@@ -12,6 +12,7 @@
   :ring {:handler mccawley-api.handler/app
          :init mccawley-api.handler/init
          :destroy mccawley-api.handler/destroy}
+  :resource-paths ["shared" "resources"]
   :min-lein-version "2.5.1"
   :profiles
   {:uberjar {:aot :all}
