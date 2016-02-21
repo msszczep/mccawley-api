@@ -3,6 +3,7 @@
             [compojure.handler :as handler]
             [compojure.route :as route]
             [mccawley-api.routes.home :refer [home-routes]]
+            [ring.logger :as logger]
             [ring.middleware.json :as middleware]
             [ring.middleware.cors :refer [wrap-cors]]))
 
@@ -19,6 +20,7 @@
 (def app
   (-> (routes home-routes app-routes)
       (handler/site)
+      (logger/wrap-with-logger)
       (wrap-cors :access-control-allow-origin #".+"
                  :access-control-allow-methods [:get])
       (middleware/wrap-json-body)

@@ -7,6 +7,7 @@
                  [ring-server "0.4.0"]
                  [ring-cors "0.1.7"]
                  [javax.servlet/servlet-api "2.5"]
+                 [ring-logger "0.7.5"]
                  [me.arnaudsj/corenlp "3.5.2" :exclusions [org.clojure/clojure]]]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler mccawley-api.handler/app
