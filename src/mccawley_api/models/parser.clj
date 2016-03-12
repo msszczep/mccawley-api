@@ -35,12 +35,16 @@
                    (apply str (repeat num-right-parens "]},"))))))))
     #",$" ""))
 
-
-(defn parse-one-sentence [txt]
+(defn get-s-expression [txt]
   (-> txt
       stanford-corenlp/tokenize
       stanford-corenlp/parse
-      str
+      str))
+
+
+(defn parse-one-sentence [txt]
+  (-> txt
+      get-s-expression
       transform-clj-obj))
 
 

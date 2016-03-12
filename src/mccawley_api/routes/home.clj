@@ -12,6 +12,7 @@
             :num-tokens (s/get-num-of-tokens parsed-sentence)
             :num-props (s/get-num-of-props parsed-sentence)
             :max-depth (s/get-max-depth parsed-sentence)
+            :s-expression (p/get-s-expression t)
             :top-five (s/get-top-five parsed-sentence)}}))
 
 
