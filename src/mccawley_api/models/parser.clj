@@ -35,6 +35,7 @@
                    (apply str (repeat num-right-parens "]},"))))))))
     #",$" ""))
 
+
 (defn get-s-expression [txt]
   (-> txt
       stanford-corenlp/tokenize
@@ -42,12 +43,12 @@
       str))
 
 
-(defn parse-one-sentence [txt]
+(defn parse-sentence [txt]
   (-> txt
       get-s-expression
       transform-clj-obj))
 
 
-(defn parse-multiple-sentences [t]
-  (map (comp transform-clj-obj str stanford-corenlp/parse)
-       (stanford-corenlp/split-sentences t)))
+(defn split-multiple-sentences [t]
+  (->> (stanford-corenlp/split-sentences t)
+       (map #(clojure.string/join " " %))))
